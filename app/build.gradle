@@ -1,0 +1,82 @@
+apply plugin: 'com.android.application'
+
+
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.exubit.familylocator"
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+
+        applicationVariants.all { variant ->
+            variant.buildConfigField "String", "YANDEX_MAP_API_KEY", "\"4d910e03-f40e-40c1-8976-2f6276b20aa1\""
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.android.support:design:27.1.1"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+
+    implementation "android.arch.lifecycle:livedata:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+
+    implementation "android.arch.persistence.room:runtime:1.1.0-beta3"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.0-beta3"
+
+    implementation "org.projectlombok:lombok:1.16.20"
+    annotationProcessor "org.projectlombok:lombok:1.16.20"
+
+    implementation "io.reactivex.rxjava2:rxjava:2.1.12"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
+    implementation "com.jakewharton.rxrelay2:rxrelay:2.0.0"
+    implementation "android.arch.persistence.room:rxjava2:1.1.0-beta3"
+
+    implementation "com.google.dagger:dagger:2.15"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.15"
+
+    implementation "com.arello-mobile:moxy:1.5.3"
+    implementation "com.arello-mobile:moxy-android:1.5.3"
+    implementation "com.arello-mobile:moxy-app-compat:1.5.3"
+    annotationProcessor "com.arello-mobile:moxy-compiler:1.5.3"
+
+    implementation "com.google.android.gms:play-services-location:15.0.0"
+    implementation "io.nlopez.smartlocation:library:3.3.3"
+    implementation "io.nlopez.smartlocation:rx:3.3.3"
+
+    implementation "com.yandex.android:mapkit:3.0.0"
+
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    implementation 'org.jetbrains:annotations:15.0'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "4.5.1"
+}
