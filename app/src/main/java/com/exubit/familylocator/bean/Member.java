@@ -16,7 +16,16 @@ public class Member {
     @PrimaryKey
     private String id;
 
-    private int location;
+    private long location;
+
+    public Member() {
+    }
+
+    public Member(@NonNull String id, long location) {
+        this.id = id;
+        this.location = location;
+
+    }
 
     @NonNull
     public String getId() {
@@ -27,13 +36,11 @@ public class Member {
         this.id = id;
     }
 
-    public int getLocation() {
+    public long getLocation() {
         return location;
     }
 
-    public void setLocation(int location) {
+    public void setLocation(long location) {
         this.location = location;
     }
-
-
 }

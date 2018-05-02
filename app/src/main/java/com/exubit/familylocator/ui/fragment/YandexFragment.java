@@ -1,5 +1,6 @@
 package com.exubit.familylocator.ui.fragment;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
@@ -7,6 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -53,6 +57,7 @@ public class YandexFragment extends BaseFragment implements MapFragmentInterface
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -79,7 +84,6 @@ public class YandexFragment extends BaseFragment implements MapFragmentInterface
                 new Animation(Animation.Type.SMOOTH, 5),
                 null);
     }
-
 
 
     @Override
@@ -111,6 +115,26 @@ public class YandexFragment extends BaseFragment implements MapFragmentInterface
     private boolean userMarkClickListener(@NonNull final MapObject mapObject, @NonNull final Point point) {
         final String userId = (String) mapObject.getUserData();
         return true;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.simple_menu, menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.show_subtitle:
+                mapPresenter.changeOneLocation();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     @Override

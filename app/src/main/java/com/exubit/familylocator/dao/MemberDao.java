@@ -19,6 +19,9 @@ public interface MemberDao {
     @Query("SELECT * FROM member")
     List<Member> getAll();
 
+    @Query("SELECT count(*) FROM member")
+    int memberNumber();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMember(Member... members);
 
