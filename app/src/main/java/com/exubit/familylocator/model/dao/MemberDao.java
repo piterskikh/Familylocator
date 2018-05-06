@@ -1,4 +1,4 @@
-package com.exubit.familylocator.dao;
+package com.exubit.familylocator.model.dao;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
@@ -24,6 +24,15 @@ public interface MemberDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMember(Member... members);
+
+    @Query("UPDATE member SET location = :location, lastUpdateTime = :updateTime, updateCode = :updateCode WHERE id =:id")
+    void updateLocation(long location, long updateTime, String updateCode, String id);
+
+    @Query("UPDATE member SET trackerOn = :trackerOn, lastUpdateTime = :updateTime, updateCode = :updateCode WHERE id =:id")
+    void updateTrackerOn(boolean trackerOn, long updateTime, String updateCode, String id);
+
+    @Query("UPDATE member SET locationOn = :locationOn, lastUpdateTime = :updateTime, updateCode = :updateCode WHERE id =:id")
+    void updateLocationOn(boolean locationOn, long updateTime, String updateCode, String id);
 
     @Delete
     void deleteMember(Member... members);

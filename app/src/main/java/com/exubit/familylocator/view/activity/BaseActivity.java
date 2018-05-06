@@ -1,4 +1,4 @@
-package com.exubit.familylocator.core;
+package com.exubit.familylocator.view.activity;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 

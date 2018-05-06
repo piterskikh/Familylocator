@@ -1,6 +1,5 @@
-package com.exubit.familylocator.core;
+package com.exubit.familylocator.view.activity;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

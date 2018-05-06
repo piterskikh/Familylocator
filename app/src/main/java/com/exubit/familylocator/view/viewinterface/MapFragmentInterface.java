@@ -1,4 +1,4 @@
-package com.exubit.familylocator.ui.uinterface;
+package com.exubit.familylocator.view.viewinterface;
 
 import android.support.annotation.NonNull;
 
@@ -11,5 +11,10 @@ public interface MapFragmentInterface extends MvpView {
 
     @StateStrategyType(SkipStrategy.class)
     void changeUserLocation(@NonNull final UserLocation userLocation);
+
+    @StateStrategyType(SkipStrategy.class)
+    void showConnectionSnackbar (boolean show);
+
+
 
 }

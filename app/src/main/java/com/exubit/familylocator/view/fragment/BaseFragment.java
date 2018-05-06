@@ -1,4 +1,4 @@
-package com.exubit.familylocator.core;
+package com.exubit.familylocator.view.fragment;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 

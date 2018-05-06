@@ -1,4 +1,4 @@
-package com.exubit.familylocator.dao;
+package com.exubit.familylocator.model.dao;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;

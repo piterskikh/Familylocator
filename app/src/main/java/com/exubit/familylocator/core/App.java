@@ -1,24 +1,24 @@
 package com.exubit.familylocator.core;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
 
-import com.exubit.familylocator.dao.AppDatabase;
+import com.exubit.familylocator.core.dagger.AppComponent;
+import com.exubit.familylocator.core.dagger.DaggerAppComponent;
 
 public class App extends Application {
 
-    private static AppDatabase db;
+    private static AppComponent appComponent;
 
-    public static AppDatabase getDb() {
-        return db;
+    public static AppComponent getAppComponent() {
+        return appComponent;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "familyLocator").build();
+        appComponent = DaggerAppComponent.builder()
+                .setContext(getApplicationContext())
+                .build();
     }
 
 

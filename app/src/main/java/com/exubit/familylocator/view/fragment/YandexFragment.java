@@ -1,12 +1,13 @@
-package com.exubit.familylocator.ui.fragment;
+package com.exubit.familylocator.view.fragment;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,12 +19,11 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.exubit.familylocator.BuildConfig;
 import com.exubit.familylocator.R;
 import com.exubit.familylocator.bean.UserLocation;
-import com.exubit.familylocator.core.BaseFragment;
-import com.exubit.familylocator.core.Utils;
-import com.exubit.familylocator.core.UtilsImpl;
+import com.exubit.familylocator.core.App;
+import com.exubit.familylocator.core.utils.Utils;
 import com.exubit.familylocator.databinding.YandexMapBinding;
 import com.exubit.familylocator.presenter.MapPresenter;
-import com.exubit.familylocator.ui.uinterface.MapFragmentInterface;
+import com.exubit.familylocator.view.viewinterface.MapFragmentInterface;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
@@ -38,6 +38,8 @@ import com.yandex.runtime.image.ImageProvider;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 
 public class YandexFragment extends BaseFragment implements MapFragmentInterface {
 
@@ -48,15 +50,19 @@ public class YandexFragment extends BaseFragment implements MapFragmentInterface
     @InjectPresenter
     MapPresenter mapPresenter;
 
+    @Inject
+    Utils utils;
+
     private MapView mapView;
+    private CoordinatorLayout mainLayout;
     private MapObjectCollection mapObjects;
-    private Utils utils = new UtilsImpl();
     private final Map<String, PlacemarkMapObject> userMapArray = new HashMap<>();
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.getAppComponent().inject(this);
         setHasOptionsMenu(true);
     }
 
@@ -69,6 +75,7 @@ public class YandexFragment extends BaseFragment implements MapFragmentInterface
 
         YandexMapBinding binding = DataBindingUtil.inflate(inflater, R.layout.yandex_map, container, false);
         mapView = binding.mapView;
+        mainLayout = binding.mainYandexMapLayout;
         initMap();
 
         return binding.getRoot();
@@ -96,6 +103,14 @@ public class YandexFragment extends BaseFragment implements MapFragmentInterface
             Bitmap bitmap = utils.getBitmap(R.drawable.ic_add_location_black_24dp, getActivity());
             userMapArray.put(userLocation.userId, setUserPlacemark(userLocation.userId, point, bitmap));
         }
+    }
+
+    @Override
+    public void showConnectionSnackbar(boolean show) {
+
+
+        Snackbar.make(mainLayout, "Пора кормить кота!", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
 
@@ -129,7 +144,9 @@ public class YandexFragment extends BaseFragment implements MapFragmentInterface
 
         switch (item.getItemId()) {
             case R.id.show_subtitle:
-                mapPresenter.changeOneLocation();
+
+                showConnectionSnackbar(true);
+               // mapPresenter.changeOneLocation();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

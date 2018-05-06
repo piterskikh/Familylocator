@@ -1,4 +1,4 @@
-package com.exubit.familylocator.core;
+package com.exubit.familylocator.core.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,10 +8,23 @@ import android.location.Location;
 import android.support.annotation.NonNull;
 
 import com.exubit.familylocator.bean.PointD;
-import com.exubit.familylocator.utils.s2.S2CellId;
-import com.exubit.familylocator.utils.s2.S2LatLng;
+import com.exubit.familylocator.core.utils.s2.S2CellId;
+import com.exubit.familylocator.core.utils.s2.S2LatLng;
+
+import java.util.Date;
+import java.util.UUID;
+
+import io.reactivex.Completable;
+import io.reactivex.functions.Action;
+import io.reactivex.schedulers.Schedulers;
 
 public class UtilsImpl implements Utils {
+
+    private final Context CONTEXT;
+
+    public UtilsImpl(Context context) {
+        this.CONTEXT = context;
+    }
 
     @Override
     public Bitmap getBitmap(final int drawableRes, @NonNull final Context context) {
@@ -46,8 +59,39 @@ public class UtilsImpl implements Utils {
         return new PointD(s2LatLng.latDegrees(), s2LatLng.lngDegrees());
     }
 
+    @Override
+    public void executeAction(@NonNull final Action action) {
+        executeAction(action, true);
+    }
+
+    @Override
+    public void executeAction(@NonNull final Action action, final boolean asynchronous) {
+        Completable localAction = Completable.fromAction(action).subscribeOn(Schedulers.io());
+        if (asynchronous)
+            localAction.subscribe();
+        else
+            localAction.blockingAwait();
+    }
+
+    @Override
+    public long getCurrentLocalTime() {
+        return new Date().getTime();
+    }
+
+    @Override
+    public String getUniqueString() {
+        return UUID.randomUUID().toString();
+    }
+
+    @Override
+    public Context getContext() {
+        return CONTEXT;
+    }
+
     @NonNull
     private S2LatLng getS2LatLng(final double latDegrees, final double lngDegrees) {
         return S2LatLng.fromDegrees(latDegrees, lngDegrees);
     }
+
+
 }

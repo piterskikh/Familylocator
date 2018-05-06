@@ -1,4 +1,4 @@
-package com.exubit.familylocator.utils.s2;
+package com.exubit.familylocator.core.utils.s2;
 
 public class MutableInteger {
 
