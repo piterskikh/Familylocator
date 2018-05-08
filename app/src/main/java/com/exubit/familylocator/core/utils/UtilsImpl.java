@@ -88,6 +88,11 @@ public class UtilsImpl implements Utils {
         return CONTEXT;
     }
 
+    @Override
+    public boolean isFalse(boolean[] array) {
+        return array == null || array.length == 0 || !array[0];
+    }
+
     @NonNull
     private S2LatLng getS2LatLng(final double latDegrees, final double lngDegrees) {
         return S2LatLng.fromDegrees(latDegrees, lngDegrees);

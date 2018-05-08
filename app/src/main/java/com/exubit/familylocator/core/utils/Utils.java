@@ -21,5 +21,6 @@ public interface Utils {
     long getCurrentLocalTime();
     String getUniqueString();
     Context getContext();
+    boolean isFalse(boolean[] array);
 
 }

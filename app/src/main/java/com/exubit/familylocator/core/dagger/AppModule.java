@@ -9,9 +9,10 @@ import com.exubit.familylocator.core.utils.UtilsImpl;
 import com.exubit.familylocator.model.dao.AppDatabase;
 import com.exubit.familylocator.model.dao.MemberDao;
 import com.exubit.familylocator.model.auxiliary.UpdateCodeMap;
-import com.exubit.familylocator.model.repository.MemberLocalQuery;
-import com.exubit.familylocator.model.repository.MemberNetworkQuery;
+import com.exubit.familylocator.model.repository.MemberLocalOperation;
+import com.exubit.familylocator.model.repository.MemberNetworkOperation;
 import com.exubit.familylocator.model.repository.MemberRepository;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import javax.inject.Singleton;
@@ -47,8 +48,8 @@ public class AppModule {
     @Provides
     @Singleton
     @NonNull
-    public FirebaseDatabase getFirebaseDatabase(@NonNull final AppDatabase roomDb) {
-        return FirebaseDatabase.getInstance();
+    public DatabaseReference getFirebaseDatabase() {
+        return FirebaseDatabase.getInstance().getReference();
     }
 
     @Provides
@@ -61,28 +62,28 @@ public class AppModule {
     @Provides
     @Singleton
     @NonNull
-    public MemberLocalQuery getMemberLocalQuery(@NonNull final Utils utils
+    public MemberLocalOperation getMemberLocalOperation(@NonNull final Utils utils
             , @NonNull final MemberDao memberDao
             , @NonNull final UpdateCodeMap updateCodeMap) {
-        return new MemberLocalQuery(utils, memberDao, updateCodeMap);
+        return new MemberLocalOperation(utils, memberDao, updateCodeMap);
     }
 
     @Provides
     @Singleton
     @NonNull
-    public MemberNetworkQuery getMemberNetworkQuery(@NonNull final Utils utils
-            , @NonNull FirebaseDatabase firebaseDatabase
+    public MemberNetworkOperation getMemberNetworkOperation(@NonNull final Utils utils
+            , @NonNull DatabaseReference databaseReference
             , @NonNull final UpdateCodeMap updateCodeMap) {
-         return new MemberNetworkQuery(utils, firebaseDatabase, updateCodeMap);
+         return new MemberNetworkOperation(utils, databaseReference, updateCodeMap);
     }
 
     @Provides
     @Singleton
     @NonNull
     public MemberRepository getMemberRepository(@NonNull final Utils utils
-            , @NonNull final MemberLocalQuery memberLocalQuery
-            , @NonNull final MemberNetworkQuery memberNetworkQuery) {
-        return new MemberRepository(utils, memberLocalQuery, memberNetworkQuery);
+            , @NonNull final MemberLocalOperation memberLocalOperation
+            , @NonNull final MemberNetworkOperation memberNetworkOperation) {
+        return new MemberRepository(utils, memberLocalOperation, memberNetworkOperation);
     }
 
 

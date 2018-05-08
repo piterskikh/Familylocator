@@ -5,22 +5,22 @@ import android.support.annotation.Nullable;
 
 import com.exubit.familylocator.bean.Member;
 import com.exubit.familylocator.core.utils.Utils;
-import com.exubit.familylocator.model.dao.MemberDao;
 import com.exubit.familylocator.model.auxiliary.UpdateCodeMap;
+import com.exubit.familylocator.model.dao.MemberDao;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
-public class MemberLocalQuery {
+public class MemberLocalOperation {
 
     private final Utils utils;
     private final MemberDao memberDao;
     private final UpdateCodeMap updateCodeMapMap;
     private final Flowable<Member> memberFlow;
 
-    public MemberLocalQuery(@NonNull final Utils utils
+    public MemberLocalOperation(@NonNull final Utils utils
             , @NonNull final MemberDao memberDao
             , @NonNull final UpdateCodeMap updateCodeMapMap) {
 
@@ -31,6 +31,7 @@ public class MemberLocalQuery {
         memberFlow = memberDao.getAllFlowable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+
     }
 
     public <K> void setMember(@Nullable final String id
@@ -38,6 +39,9 @@ public class MemberLocalQuery {
             , @NonNull final Member.Fields field
             , @NonNull final K value
             , @Nullable final boolean... asynchronous) {
+
+        Member member = new Member();
+
 
         Action action = () -> {
 
@@ -80,8 +84,11 @@ public class MemberLocalQuery {
     }
 
 
-    public Flowable<Member> getMemberFlow() {
+    public Flowable<Member> getMemberFlow(boolean... asynchronous) {
+       /* Flowable<Member> flow = memberFlow;
+        if (utils.isFalse(asynchronous))
+            flow.observeOn(AndroidSchedulers.mainThread());*/
         return memberFlow;
     }
 
- }
+}

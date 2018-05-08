@@ -25,18 +25,12 @@ public class MapPresenter extends MvpPresenter<MapFragmentInterface> {
     @Inject
     MemberRepository memberRepository;
 
-
-    /*private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private final DatabaseReference connectedRef = database.getReference(".info/connected");
-    private final DatabaseReference myConnectionsRef = database.getReference("users/sergey/connections");
-    private final DatabaseReference lastOnlineRef = database.getReference("/users/sergey/lastOnline");*/
-
     private Disposable subscription;
 
 
     public MapPresenter() {
         App.getAppComponent().inject(this);
-        Member member = new Member("sergey", utils.getCellId(52.281461, 104.266230), "momo");
+        Member member = new Member("sergey", utils.getCellId(52.281461, 104.266230));
         memberRepository.setMemeber(member, false);
 
     }
@@ -46,6 +40,7 @@ public class MapPresenter extends MvpPresenter<MapFragmentInterface> {
         super.attachView(view);
         Log.d("zaza", "карта присоединилась");
         subscription = memberRepository.getAllMemberFlow().subscribe(this::placeMember);
+        memberRepository.startWork();
     }
 
     @Override
@@ -65,8 +60,13 @@ public class MapPresenter extends MvpPresenter<MapFragmentInterface> {
         Member member = new Member();
         member.setId("sergey");
         member.setLocation(utils.getCellId(52.288102, 104.264539));
-        member.setUpdateCode("momo");
         memberRepository.setMemeber(member);
+    }
+
+    void test(){
+
+
+
     }
 
 

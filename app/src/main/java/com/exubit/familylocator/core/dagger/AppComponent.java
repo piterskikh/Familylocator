@@ -3,8 +3,8 @@ package com.exubit.familylocator.core.dagger;
 import android.content.Context;
 
 import com.exubit.familylocator.presenter.MapPresenter;
-import com.exubit.familylocator.model.repository.MemberLocalQuery;
-import com.exubit.familylocator.model.repository.MemberNetworkQuery;
+import com.exubit.familylocator.model.repository.MemberLocalOperation;
+import com.exubit.familylocator.model.repository.MemberNetworkOperation;
 import com.exubit.familylocator.model.repository.MemberRepository;
 import com.exubit.familylocator.view.fragment.YandexFragment;
 
@@ -29,9 +29,9 @@ public interface AppComponent {
 
     void inject(YandexFragment yandexFragment);
 
-    void inject(MemberLocalQuery memberLocalQuery);
+    void inject(MemberLocalOperation memberLocalOperation);
 
-    void inject(MemberNetworkQuery memberNetworkQuery);
+    void inject(MemberNetworkOperation memberNetworkOperation);
 
     void inject(MemberRepository memberRepository);
 
