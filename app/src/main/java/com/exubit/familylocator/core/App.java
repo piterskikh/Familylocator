@@ -19,6 +19,8 @@ public class App extends Application {
         appComponent = DaggerAppComponent.builder()
                 .setContext(getApplicationContext())
                 .build();
+
+        new BeanStart();
     }
 
 

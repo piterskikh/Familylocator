@@ -53,7 +53,7 @@ public class MemberLocalOperation {
 
                 case LOCATION:
                     if (value instanceof Long) {
-                        memberDao.updateLocation((Long) value, updateTime, updateCode, id);
+                        memberDao.updateLocation((Long) value, updateCode, id);
                         break;
                     }
                 case OBJECT:
@@ -63,12 +63,12 @@ public class MemberLocalOperation {
                     }
                 case LOCATIONON:
                     if (value instanceof Boolean) {
-                        memberDao.updateLocationOn((Boolean) value, updateTime, updateCode, id);
+                        memberDao.updateLocationOn((Boolean) value, updateCode, id);
                         break;
                     }
                 case TRACKERON:
                     if (value instanceof Boolean) {
-                        memberDao.updateTrackerOn((Boolean) value, updateTime, updateCode, id);
+                        memberDao.updateTrackerOn((Boolean) value, updateCode, id);
                         break;
                     }
                 default:

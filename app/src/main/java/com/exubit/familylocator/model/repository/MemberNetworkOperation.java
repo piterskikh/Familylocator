@@ -7,18 +7,20 @@ import com.exubit.familylocator.core.utils.Utils;
 import com.exubit.familylocator.model.auxiliary.UpdateCodeMap;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import java.time.Instant;
+import java.util.Date;
 
 public class MemberNetworkOperation {
 
     private final Utils utils;
     private final DatabaseReference databaseReference ;
     private final UpdateCodeMap updateCodeMapMap;
-    //private final DatabaseReference connectedRef;
-    //private final DatabaseReference usersRef;
+    private final DatabaseReference connectedRef;
+    private final DatabaseReference usersRef;
     private MemberRepository memberRepository;
 
-    private DatabaseReference mDatabase;
+
 
 
 
@@ -29,11 +31,8 @@ public class MemberNetworkOperation {
         this.utils = utils;
         this.databaseReference = databaseReference;
         this.updateCodeMapMap = updateCodeMapMap;
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-       // connectedRef = mDatabase.child(".info/connected");
-        //usersRef = mDatabase.child("users");
+        connectedRef = databaseReference.child(".info/connected");
+        usersRef = databaseReference.child("users");
     }
 
     public void setMemberRepository(@NonNull final MemberRepository memberRepository) {
@@ -41,11 +40,12 @@ public class MemberNetworkOperation {
     }
 
     public void setMemberToNet(Member member){
-        mDatabase.child("users/"+member.getId()+"/momo").setValue("lolo");
+              usersRef.child(member.getId()).setValue(member, this::setMemberCompletionListener);
     }
 
     private void setMemberCompletionListener(DatabaseError databaseError, DatabaseReference databaseReference) {
         int i =1;
+       // databaseReference.getKey();
     }
 
 

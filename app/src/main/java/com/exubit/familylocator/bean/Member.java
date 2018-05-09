@@ -6,37 +6,53 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.ServerValue;
 
+import java.util.Map;
+
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+
 @Setter
 @Entity
+@IgnoreExtraProperties
 @EqualsAndHashCode(exclude={"lastLocation", "updateCode", "baseSynchronized", "lat", "lng"})
 public class Member {
 
     @NonNull
     @PrimaryKey
+    @Getter(onMethod=@__({@Exclude}))
     private String id;
+    @Getter
     private String changer;
+    @Getter
     private long location;
-    private long lastUpdateTime;
+
+    @Getter
     private boolean online;
+    @Getter
     private boolean trackerOn;
+    @Getter
     private boolean locationOn;
 
-    @Exclude
+    @Ignore
+    private long lastUpdateTime;
+
+    private long lastUpdateTimeLong;
+
+    @Getter(onMethod=@__({@Exclude}))
     private long lastLocation;
-    @Exclude
+    @Getter(onMethod=@__({@Exclude}))
     private int updateCode;
-    @Exclude
+    @Getter(onMethod=@__({@Exclude}))
     private boolean baseSynchronized;
 
-    @Exclude
-    @Ignore
-    double lat, lng;
+    @Getter(onMethod=@__({@Exclude, @Ignore}))
+    private double lat, lng;
 
     public Member() {
     }
@@ -47,6 +63,23 @@ public class Member {
         this.id = id;
         this.location = location;
     }
+
+    @Ignore
+    public Map<String, String> getLastUpdateTime() {
+        return ServerValue.TIMESTAMP;
+    }
+
+    @Exclude
+    public long getLastUpdateTimeLong() {
+        return lastUpdateTimeLong;
+    }
+
+    public void setLastUpdateTime(final long lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+        this.lastUpdateTimeLong = this.lastUpdateTime;
+    }
+
+
 
 
     public enum Fields {

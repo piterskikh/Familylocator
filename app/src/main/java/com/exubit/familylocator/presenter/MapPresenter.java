@@ -57,9 +57,10 @@ public class MapPresenter extends MvpPresenter<MapFragmentInterface> {
 
 
     public void changeOneLocation() {
-        Member member = new Member();
+        /*Member member = new Member();
         member.setId("sergey");
-        member.setLocation(utils.getCellId(52.288102, 104.264539));
+        member.setLocation(utils.getCellId(52.288102, 104.264539));*/
+        Member member = new Member("sergey", utils.getCellId(52.281461, 104.266230));
         memberRepository.setMemeber(member);
     }
 

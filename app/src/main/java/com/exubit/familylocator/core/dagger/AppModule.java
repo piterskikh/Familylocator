@@ -4,11 +4,12 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.exubit.familylocator.core.AppProcessor;
 import com.exubit.familylocator.core.utils.Utils;
 import com.exubit.familylocator.core.utils.UtilsImpl;
+import com.exubit.familylocator.model.auxiliary.UpdateCodeMap;
 import com.exubit.familylocator.model.dao.AppDatabase;
 import com.exubit.familylocator.model.dao.MemberDao;
-import com.exubit.familylocator.model.auxiliary.UpdateCodeMap;
 import com.exubit.familylocator.model.repository.MemberLocalOperation;
 import com.exubit.familylocator.model.repository.MemberNetworkOperation;
 import com.exubit.familylocator.model.repository.MemberRepository;
@@ -74,7 +75,7 @@ public class AppModule {
     public MemberNetworkOperation getMemberNetworkOperation(@NonNull final Utils utils
             , @NonNull DatabaseReference databaseReference
             , @NonNull final UpdateCodeMap updateCodeMap) {
-         return new MemberNetworkOperation(utils, databaseReference, updateCodeMap);
+        return new MemberNetworkOperation(utils, databaseReference, updateCodeMap);
     }
 
     @Provides
@@ -84,6 +85,14 @@ public class AppModule {
             , @NonNull final MemberLocalOperation memberLocalOperation
             , @NonNull final MemberNetworkOperation memberNetworkOperation) {
         return new MemberRepository(utils, memberLocalOperation, memberNetworkOperation);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    public AppProcessor getMemberProcessor(@NonNull final Utils utils
+            , @NonNull final MemberRepository memberRepository) {
+        return new AppProcessor(utils, memberRepository);
     }
 
 
