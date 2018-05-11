@@ -1,6 +1,7 @@
 package com.exubit.familylocator.core.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -21,9 +22,13 @@ import io.reactivex.schedulers.Schedulers;
 public class UtilsImpl implements Utils {
 
     private final Context CONTEXT;
+    private final SharedPreferences.Editor EDITOR;
+    private final SharedPreferences SHAREDPREFERENCES;
 
-    public UtilsImpl(Context context) {
+    public UtilsImpl(@NonNull final Context context) {
         this.CONTEXT = context;
+        this.SHAREDPREFERENCES = context.getSharedPreferences("FamilyLocator", Context.MODE_PRIVATE);
+        this.EDITOR = this.SHAREDPREFERENCES.edit();
     }
 
     @Override
@@ -91,6 +96,22 @@ public class UtilsImpl implements Utils {
     @Override
     public boolean isFalse(boolean[] array) {
         return array == null || array.length == 0 || !array[0];
+    }
+
+    @Override
+    public SharedPreferences.Editor getEditor() {
+        return EDITOR;
+    }
+
+    @Override
+    public synchronized void setLongSettings(String key, long value) {
+        EDITOR.putLong(key, value);
+        EDITOR.apply();
+    }
+
+    @Override
+    public long getLongSettings(String key) {
+        return SHAREDPREFERENCES.getLong(key, 0L);
     }
 
     @NonNull

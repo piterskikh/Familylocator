@@ -30,8 +30,8 @@ public class MapPresenter extends MvpPresenter<MapFragmentInterface> {
 
     public MapPresenter() {
         App.getAppComponent().inject(this);
-        Member member = new Member("sergey", utils.getCellId(52.281461, 104.266230));
-        memberRepository.setMemeber(member, false);
+      //  Member member = new Member("sergey", utils.getCellId(52.281461, 104.266230));
+      //  memberRepository.setMemeber(member, false);
 
     }
 
@@ -39,7 +39,7 @@ public class MapPresenter extends MvpPresenter<MapFragmentInterface> {
     public void attachView(MapFragmentInterface view) {
         super.attachView(view);
         Log.d("zaza", "карта присоединилась");
-        subscription = memberRepository.getAllMemberFlow().subscribe(this::placeMember);
+        subscription = memberRepository.getAllMemberFlow(false).subscribe(this::placeMember);
         memberRepository.startWork();
     }
 

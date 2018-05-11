@@ -2,12 +2,12 @@ package com.exubit.familylocator.core.dagger;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.exubit.familylocator.core.AppProcessor;
 import com.exubit.familylocator.core.utils.Utils;
 import com.exubit.familylocator.core.utils.UtilsImpl;
-import com.exubit.familylocator.model.auxiliary.UpdateCodeMap;
 import com.exubit.familylocator.model.dao.AppDatabase;
 import com.exubit.familylocator.model.dao.MemberDao;
 import com.exubit.familylocator.model.repository.MemberLocalOperation;
@@ -42,6 +42,22 @@ public class AppModule {
     @Provides
     @Singleton
     @NonNull
+    public SharedPreferences getSharedPreferences(@NonNull final Context context) {
+        return context.getSharedPreferences("FamilyLocator", Context.MODE_PRIVATE);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    public SharedPreferences.Editor getEditor(@NonNull final Context context) {
+        SharedPreferences sPref = context.getSharedPreferences("FamilyLocator", Context.MODE_PRIVATE);
+        return sPref.edit();
+    }
+
+
+    @Provides
+    @Singleton
+    @NonNull
     public MemberDao getMemberDao(@NonNull final AppDatabase roomDb) {
         return roomDb.memberDao();
     }
@@ -53,29 +69,23 @@ public class AppModule {
         return FirebaseDatabase.getInstance().getReference();
     }
 
-    @Provides
-    @Singleton
-    @NonNull
-    public UpdateCodeMap getUpdateCodeMap() {
-        return new UpdateCodeMap();
-    }
 
     @Provides
     @Singleton
     @NonNull
     public MemberLocalOperation getMemberLocalOperation(@NonNull final Utils utils
-            , @NonNull final MemberDao memberDao
-            , @NonNull final UpdateCodeMap updateCodeMap) {
-        return new MemberLocalOperation(utils, memberDao, updateCodeMap);
+            , @NonNull final MemberDao memberDao) {
+
+        return new MemberLocalOperation(utils, memberDao);
     }
 
     @Provides
     @Singleton
     @NonNull
     public MemberNetworkOperation getMemberNetworkOperation(@NonNull final Utils utils
-            , @NonNull DatabaseReference databaseReference
-            , @NonNull final UpdateCodeMap updateCodeMap) {
-        return new MemberNetworkOperation(utils, databaseReference, updateCodeMap);
+            , @NonNull DatabaseReference databaseReference) {
+
+        return new MemberNetworkOperation(utils, databaseReference);
     }
 
     @Provides

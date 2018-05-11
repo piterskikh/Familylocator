@@ -7,17 +7,18 @@ import android.support.annotation.NonNull;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.PropertyName;
 import com.google.firebase.database.ServerValue;
 
 import java.util.Map;
 
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Setter
+@Getter
 @Entity
 @IgnoreExtraProperties
 @EqualsAndHashCode(exclude={"lastLocation", "updateCode", "baseSynchronized", "lat", "lng"})
@@ -27,30 +28,25 @@ public class Member {
     @PrimaryKey
     @Getter(onMethod=@__({@Exclude}))
     private String id;
-    @Getter
-    private String changer;
-    @Getter
-    private long location;
 
-    @Getter
+    private long location;
     private boolean online;
-    @Getter
     private boolean trackerOn;
-    @Getter
     private boolean locationOn;
 
+    @Getter(onMethod=@__({@Ignore}))
+    private String editor;
     @Ignore
+    private long lastUpdateTimeNet;
+
+    @Getter(onMethod=@__({@Exclude}))
     private long lastUpdateTime;
-
-    private long lastUpdateTimeLong;
-
     @Getter(onMethod=@__({@Exclude}))
     private long lastLocation;
     @Getter(onMethod=@__({@Exclude}))
     private int updateCode;
     @Getter(onMethod=@__({@Exclude}))
     private boolean baseSynchronized;
-
     @Getter(onMethod=@__({@Exclude, @Ignore}))
     private double lat, lng;
 
@@ -65,18 +61,15 @@ public class Member {
     }
 
     @Ignore
-    public Map<String, String> getLastUpdateTime() {
+    @PropertyName("lastUpdateTime")
+    public Map<String, String> getLastUpdateTimeNet() {
         return ServerValue.TIMESTAMP;
     }
 
-    @Exclude
-    public long getLastUpdateTimeLong() {
-        return lastUpdateTimeLong;
-    }
 
-    public void setLastUpdateTime(final long lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
-        this.lastUpdateTimeLong = this.lastUpdateTime;
+    @Ignore
+    public void setLastUpdateTimeNet(final long lastUpdateTimeNet) {
+        this.lastUpdateTime = lastUpdateTimeNet;
     }
 
 

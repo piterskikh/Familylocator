@@ -5,11 +5,14 @@ import android.support.annotation.Nullable;
 
 import com.exubit.familylocator.bean.Member;
 import com.exubit.familylocator.core.utils.Utils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 
 public class MemberRepository {
+
 
     private final Utils utils;
     private final MemberLocalOperation memberLocalOperation;
@@ -24,7 +27,6 @@ public class MemberRepository {
         this.utils = utils;
         this.memberLocalOperation = memberLocalOperation;
         this.memberNetworkOperation = memberNetworkOperation;
-        this.memberNetworkOperation.setMemberRepository(this);
     }
 
     public Flowable<Member> getAllMemberFlow(boolean... asynchronous) {
@@ -35,29 +37,28 @@ public class MemberRepository {
         return getAllMemberFlow().filter(member -> member.getUpdateCode() != member.hashCode());
     }
 
-    public void setMemeber(@NonNull final Member member, final boolean... asynchronous) {
-        setMemeber(member, null, asynchronous);
+    public void setMemeber(@NonNull final Member member,  @Nullable final boolean... asynchronous) {
+        memberLocalOperation.setMember(null, Member.Fields.OBJECT, member, asynchronous);
     }
 
-    public void setMemeber(@NonNull final Member member, @Nullable final Echo echo, @Nullable final boolean... asynchronous) {
-        memberLocalOperation.setMember(null, echo, Member.Fields.OBJECT, member, asynchronous);
-    }
+
 
     public <V> void setMemeber(@NonNull final String id, @NonNull final Member.Fields field, @NonNull final V value, @Nullable final boolean... asynchronous) {
-        setMemeber(id, field, value, null, asynchronous);
-    }
-
-    public <V> void setMemeber(@NonNull final String id, @NonNull final Member.Fields field, @NonNull final V value, @Nullable final Echo echo, @Nullable final boolean... asynchronous) {
-        memberLocalOperation.setMember(id, echo, field, value, asynchronous);
+        memberLocalOperation.setMember(id, field, value, asynchronous);
     }
 
     public void startWork() {
-        memberBaseToNetSubscribtion = getAllMemberFlow().subscribe(memberNetworkOperation::setMemberToNet);
+       memberBaseToNetSubscribtion = getAllMemberFlow()
+               .filter(member -> !member.isBaseSynchronized())
+               .subscribe(memberNetworkOperation::setMemberToNet);
     }
 
-    public enum Echo {
-        NETTOLOCAL;
+    public Query getUsersQuery() {
+        return memberNetworkOperation.getUsersQuery();
     }
+
+
+
 
 
 }
