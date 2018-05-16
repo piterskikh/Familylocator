@@ -21,33 +21,22 @@ import lombok.Setter;
 @Getter
 @Entity
 @IgnoreExtraProperties
-@EqualsAndHashCode(exclude={"lastLocation", "updateCode", "baseSynchronized", "lat", "lng"})
+@EqualsAndHashCode(exclude = {"baseHashCode", "lat", "lng"})
 public class Member {
 
     @NonNull
     @PrimaryKey
-    @Getter(onMethod=@__({@Exclude}))
+    @Getter(onMethod = @__({@Exclude}))
     private String id;
-
     private long location;
     private boolean online;
     private boolean trackerOn;
     private boolean locationOn;
-
-    @Getter(onMethod=@__({@Ignore}))
-    private String editor;
-    @Ignore
-    private long lastUpdateTimeNet;
-
-    @Getter(onMethod=@__({@Exclude}))
+    @Getter(onMethod = @__({@Exclude}))
     private long lastUpdateTime;
-    @Getter(onMethod=@__({@Exclude}))
-    private long lastLocation;
-    @Getter(onMethod=@__({@Exclude}))
-    private int updateCode;
-    @Getter(onMethod=@__({@Exclude}))
-    private boolean baseSynchronized;
-    @Getter(onMethod=@__({@Exclude, @Ignore}))
+    @Getter(onMethod = @__({@Exclude}))
+    private int baseHashCode;
+    @Getter(onMethod = @__({@Exclude, @Ignore}))
     private double lat, lng;
 
     public Member() {
@@ -71,8 +60,6 @@ public class Member {
     public void setLastUpdateTimeNet(final long lastUpdateTimeNet) {
         this.lastUpdateTime = lastUpdateTimeNet;
     }
-
-
 
 
     public enum Fields {

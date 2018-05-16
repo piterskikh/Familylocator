@@ -25,14 +25,14 @@ public interface MemberDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMember(Member... members);
 
-    @Query("UPDATE member SET location = :location, updateCode = :updateCode WHERE id =:id")
-    void updateLocation(long location, String updateCode, String id);
+    @Query("UPDATE member SET location = :location WHERE id =:id")
+    void updateLocation(long location, String id);
 
-    @Query("UPDATE member SET trackerOn = :trackerOn, updateCode = :updateCode WHERE id =:id")
-    void updateTrackerOn(boolean trackerOn, String updateCode, String id);
+    @Query("UPDATE member SET trackerOn = :trackerOn WHERE id =:id")
+    void updateTrackerOn(boolean trackerOn, String id);
 
-    @Query("UPDATE member SET locationOn = :locationOn, updateCode = :updateCode WHERE id =:id")
-    void updateLocationOn(boolean locationOn, String updateCode, String id);
+    @Query("UPDATE member SET locationOn = :locationOn WHERE id =:id")
+    void updateLocationOn(boolean locationOn, String id);
 
     @Delete
     void deleteMember(Member... members);

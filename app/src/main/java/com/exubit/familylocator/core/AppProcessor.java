@@ -3,27 +3,57 @@ package com.exubit.familylocator.core;
 import android.support.annotation.NonNull;
 
 import com.exubit.familylocator.core.utils.Utils;
-import com.exubit.familylocator.model.auxiliary.MemberNetListListener;
 import com.exubit.familylocator.model.repository.MemberRepository;
+import com.google.firebase.database.Query;
+import com.jakewharton.rxrelay2.BehaviorRelay;
 
-import io.reactivex.disposables.Disposable;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 public class AppProcessor {
 
-    private final Utils utils;
-    private final MemberRepository memberRepository;
-    private final MemberNetListListener memberNetListListener;
+    @Inject
+    Utils utils;
+    @Inject
+    MemberRepository memberRepository;
+    @Inject
+    @Named("mapActive")
+    BehaviorRelay<Boolean> memberListRelay;
 
-    public AppProcessor(@NonNull final Utils utils, @NonNull final MemberRepository memberRepository) {
-        this.utils = utils;
-        this.memberRepository = memberRepository;
-        memberNetListListener = new MemberNetListListener(memberRepository, utils);
-        setMemberNetListenner();
+    private Query usersQuery;
+
+
+
+
+    public AppProcessor() {
+        App.getAppComponent().inject(this);
+
+    }
+
+    private void init() {
+        memberRepository.getChangedMemberFlow().subscribe(memberRepository::setMemberToNet);
+        memberListRelay.subscribe(this::memberListRelayListenner);
     }
 
 
-    private void setMemberNetListenner() {
-        memberRepository.getUsersQuery().addChildEventListener(memberNetListListener);
+    private void memberListRelayListenner(@NonNull final Boolean event) {
+        if (event)
+            setMemberListListenner();
+        else
+            deleteMemberListListenner();
+    }
+
+
+    private void setMemberListListenner() {
+        usersQuery =  memberRepository.getUsersQuery();
+        usersQuery.addChildEventListener(memberRepository.getMemberListListener());
+    }
+
+    private void deleteMemberListListenner() {
+        if (usersQuery!=null) {
+            usersQuery.addChildEventListener(memberRepository.getMemberListListener());
+            usersQuery = null;
+        }
     }
 
 

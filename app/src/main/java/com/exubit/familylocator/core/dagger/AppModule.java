@@ -15,7 +15,9 @@ import com.exubit.familylocator.model.repository.MemberNetworkOperation;
 import com.exubit.familylocator.model.repository.MemberRepository;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.jakewharton.rxrelay2.BehaviorRelay;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -100,10 +102,24 @@ public class AppModule {
     @Provides
     @Singleton
     @NonNull
-    public AppProcessor getMemberProcessor(@NonNull final Utils utils
-            , @NonNull final MemberRepository memberRepository) {
-        return new AppProcessor(utils, memberRepository);
+    public AppProcessor getMemberProcessor() {
+        return new AppProcessor();
     }
 
+    @Provides
+    @Singleton
+    @NonNull
+    @Named("mapActive")
+    public BehaviorRelay<Boolean> getMapActiveBus() {
+        return BehaviorRelay.createDefault(false);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    @Named("baseOnline")
+    public BehaviorRelay<Boolean> getBaseOnlineState() {
+        return BehaviorRelay.createDefault(false);
+    }
 
 }

@@ -12,8 +12,10 @@ import com.exubit.familylocator.core.App;
 import com.exubit.familylocator.core.utils.Utils;
 import com.exubit.familylocator.model.repository.MemberRepository;
 import com.exubit.familylocator.view.viewinterface.MapFragmentInterface;
+import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.reactivex.disposables.Disposable;
 
@@ -24,14 +26,26 @@ public class MapPresenter extends MvpPresenter<MapFragmentInterface> {
     Utils utils;
     @Inject
     MemberRepository memberRepository;
+    @Inject
+    @Named("mapActive")
+    BehaviorRelay<Boolean> memberListRelay;
+
+    @Inject
+    @Named("baseOnline")
+    BehaviorRelay<Boolean> baseOnlineRelay;
 
     private Disposable subscription;
+    private Disposable baseOnlineRelaySubscription;
+
+    private boolean attachedView;
 
 
     public MapPresenter() {
         App.getAppComponent().inject(this);
-      //  Member member = new Member("sergey", utils.getCellId(52.281461, 104.266230));
-      //  memberRepository.setMemeber(member, false);
+
+
+       // Member member = new Member("sergey", utils.getCellId(52.281461, 104.266230));
+       // memberRepository.setMemeber(member, false);
 
     }
 
@@ -40,15 +54,20 @@ public class MapPresenter extends MvpPresenter<MapFragmentInterface> {
         super.attachView(view);
         Log.d("zaza", "карта присоединилась");
         subscription = memberRepository.getAllMemberFlow(false).subscribe(this::placeMember);
-        memberRepository.startWork();
-    }
+        baseOnlineRelaySubscription = baseOnlineRelay.subscribe(this::defineOnlineDbState);
+        attachedView = true;
+        memberListRelay.accept(attachedView);
+     }
 
     @Override
     public void detachView(MapFragmentInterface view) {
         super.detachView(view);
         Log.d("zaza", "карта отсоединилась");
         subscription.dispose();
-    }
+        baseOnlineRelaySubscription.dispose();
+        attachedView = false;
+        memberListRelay.accept(attachedView);
+     }
 
     private void placeMember(@NonNull final Member member) {
         PointD pointD = utils.getLatLngFromCellId(member.getLocation());
@@ -64,8 +83,10 @@ public class MapPresenter extends MvpPresenter<MapFragmentInterface> {
         memberRepository.setMemeber(member);
     }
 
-    void test(){
+    private void defineOnlineDbState(@NonNull final Boolean state){
 
+
+        getViewState().showConnectionSnackbar(state);
 
 
     }

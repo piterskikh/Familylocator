@@ -2,6 +2,7 @@ package com.exubit.familylocator.core.dagger;
 
 import android.content.Context;
 
+import com.exubit.familylocator.core.AppProcessor;
 import com.exubit.familylocator.core.BeanStart;
 import com.exubit.familylocator.presenter.MapPresenter;
 import com.exubit.familylocator.model.repository.MemberLocalOperation;
@@ -37,5 +38,7 @@ public interface AppComponent {
     void inject(MemberRepository memberRepository);
 
     void inject(BeanStart beanStart);
+
+    void inject(AppProcessor appProcessor);
 
 }

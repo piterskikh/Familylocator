@@ -43,10 +43,7 @@ import javax.inject.Inject;
 
 public class YandexFragment extends BaseFragment implements MapFragmentInterface {
 
-    public static YandexFragment newInstance() {
-        return new YandexFragment();
-    }
-
+    private final Map<String, PlacemarkMapObject> userMapArray = new HashMap<>();
     @InjectPresenter
     MapPresenter mapPresenter;
 
@@ -56,8 +53,11 @@ public class YandexFragment extends BaseFragment implements MapFragmentInterface
     private MapView mapView;
     private CoordinatorLayout mainLayout;
     private MapObjectCollection mapObjects;
-    private final Map<String, PlacemarkMapObject> userMapArray = new HashMap<>();
+    private Snackbar onlineBaseSnackbar;
 
+    public static YandexFragment newInstance() {
+        return new YandexFragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +76,8 @@ public class YandexFragment extends BaseFragment implements MapFragmentInterface
         YandexMapBinding binding = DataBindingUtil.inflate(inflater, R.layout.yandex_map, container, false);
         mapView = binding.mapView;
         mainLayout = binding.mainYandexMapLayout;
+        onlineBaseSnackbar = Snackbar.make(mainLayout, "Подключение к базе данных...", Snackbar.LENGTH_INDEFINITE);
+
         initMap();
 
         return binding.getRoot();
@@ -106,11 +108,13 @@ public class YandexFragment extends BaseFragment implements MapFragmentInterface
     }
 
     @Override
-    public void showConnectionSnackbar(boolean show) {
-
-
-        Snackbar.make(mainLayout, "Пора кормить кота!", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+    public void showConnectionSnackbar(boolean hide) {
+        if (!hide)
+            onlineBaseSnackbar.show();
+        else {
+            if (onlineBaseSnackbar.isShown())
+                onlineBaseSnackbar.dismiss();
+        }
     }
 
 

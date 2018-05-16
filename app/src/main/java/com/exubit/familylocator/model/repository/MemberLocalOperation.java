@@ -36,14 +36,12 @@ public class MemberLocalOperation {
 
         Action action = () -> {
 
-            final String updateCode = utils.getUniqueString();
-            final long updateTime = utils.getCurrentLocalTime();
 
             switch (field) {
 
                 case LOCATION:
                     if (value instanceof Long)
-                        memberDao.updateLocation((Long) value, updateCode, id);
+                        memberDao.updateLocation((Long) value, id);
                     break;
                 case OBJECT:
                     if (value instanceof Member)
@@ -52,12 +50,12 @@ public class MemberLocalOperation {
 
                 case LOCATIONON:
                     if (value instanceof Boolean)
-                        memberDao.updateLocationOn((Boolean) value, updateCode, id);
+                        memberDao.updateLocationOn((Boolean) value, id);
                     break;
 
                 case TRACKERON:
                     if (value instanceof Boolean)
-                        memberDao.updateTrackerOn((Boolean) value, updateCode, id);
+                        memberDao.updateTrackerOn((Boolean) value, id);
                     break;
             }
 
