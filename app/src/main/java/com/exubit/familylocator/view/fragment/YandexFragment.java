@@ -150,7 +150,7 @@ public class YandexFragment extends BaseFragment implements MapFragmentInterface
             case R.id.show_subtitle:
 
                 //showConnectionSnackbar(true);
-                mapPresenter.changeOneLocation();
+              //  mapPresenter.changeOneLocation();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

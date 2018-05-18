@@ -27,7 +27,7 @@ public class AppProcessor {
 
     public AppProcessor() {
         App.getAppComponent().inject(this);
-
+        init();
     }
 
     private void init() {
@@ -46,12 +46,12 @@ public class AppProcessor {
 
     private void setMemberListListenner() {
         usersQuery =  memberRepository.getUsersQuery();
-        usersQuery.addChildEventListener(memberRepository.getMemberListListener());
+        usersQuery.addChildEventListener(memberRepository.getMemberNetListListener());
     }
 
     private void deleteMemberListListenner() {
         if (usersQuery!=null) {
-            usersQuery.addChildEventListener(memberRepository.getMemberListListener());
+            usersQuery.addChildEventListener(memberRepository.getMemberNetListListener());
             usersQuery = null;
         }
     }

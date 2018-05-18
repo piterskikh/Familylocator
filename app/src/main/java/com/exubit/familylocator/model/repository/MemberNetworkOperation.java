@@ -22,32 +22,7 @@ public class MemberNetworkOperation {
     private final Utils utils;
     private DatabaseReference usersRef;
     private long maxUpdateTime;
-    private final ChildEventListener childEventListener = new ChildEventListener() {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            setMemberToLocalDb(dataSnapshot);
-        }
 
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            setMemberToLocalDb(dataSnapshot);
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
     @Inject
     @Named("baseOnline")
     BehaviorRelay<Boolean> baseOnlineRelay;
@@ -89,26 +64,15 @@ public class MemberNetworkOperation {
         return usersRef.orderByChild("lastUpdateTime").startAt(utils.getLongSettings(MAXUPDATETIME) + 1, "lastUpdateTime");
     }
 
-    public ChildEventListener getChildEventListener() {
-        return childEventListener;
+    public long getMaxUpdateTime() {
+        return maxUpdateTime;
     }
 
-
-    private void setMaxUpdateTime(final long updateTime) {
+    public void setMaxUpdateTime(long updateTime) {
         if (updateTime > maxUpdateTime) {
             maxUpdateTime = updateTime;
             utils.setLongSettings(MAXUPDATETIME, updateTime);
         }
-    }
-
-    private void setMemberToLocalDb(@NonNull final DataSnapshot dataSnapshot) {
-        Member member = dataSnapshot.getValue(Member.class);
-        member.setId(dataSnapshot.getKey());
-        member.setBaseHashCode(member.hashCode());
-        setMaxUpdateTime(member.getLastUpdateTime());
-        setMemberToNet(member);
-    }
-
-
+     }
 }
 

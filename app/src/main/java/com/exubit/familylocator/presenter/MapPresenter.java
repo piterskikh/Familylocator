@@ -45,7 +45,7 @@ public class MapPresenter extends MvpPresenter<MapFragmentInterface> {
 
 
        // Member member = new Member("sergey", utils.getCellId(52.281461, 104.266230));
-       // memberRepository.setMemeber(member, false);
+       // memberRepository.setMember(member, false);
 
     }
 
@@ -80,7 +80,7 @@ public class MapPresenter extends MvpPresenter<MapFragmentInterface> {
         member.setId("sergey");
         member.setLocation(utils.getCellId(52.288102, 104.264539));*/
         Member member = new Member("sergey", utils.getCellId(52.281461, 104.266230));
-        memberRepository.setMemeber(member);
+        memberRepository.setMember(member);
     }
 
     private void defineOnlineDbState(@NonNull final Boolean state){
