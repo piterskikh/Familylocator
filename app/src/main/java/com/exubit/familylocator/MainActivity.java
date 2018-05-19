@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import com.exubit.familylocator.view.activity.SingleFragmentActivity;
+import com.exubit.familylocator.view.fragment.StartSettingsFragment;
 import com.exubit.familylocator.view.fragment.YandexFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -27,8 +28,7 @@ public class MainActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        createDirectory();
-        return YandexFragment.newInstance();
+         return YandexFragment.newInstance();
 
     }
 
@@ -43,16 +43,19 @@ public class MainActivity extends SingleFragmentActivity {
                     startActivityForResult(takePictureIntent, 1);
                 }*/
 
+                SingleFragmentActivity.setFragment(new StartSettingsFragment());
+                Intent intent = new Intent(this, SingleFragmentActivity.class);
+                startActivity(intent);
 
 
-
-                CropImage.activity()
+                /*CropImage.activity()
+                        //.setOutputUri()
                         .setGuidelines(CropImageView.Guidelines.ON)
                         .setMinCropResultSize(100, 100)
                         .setMaxCropResultSize(1000, 1000)
                         .setCropShape(CropImageView.CropShape.RECTANGLE)
                         .setAspectRatio(1,1)
-                        .start(this);
+                        .start(this);*/
 
                 /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, generateFileUri(TYPE_PHOTO));
@@ -115,29 +118,10 @@ public class MainActivity extends SingleFragmentActivity {
     }
 
 
-    private Uri generateFileUri(int type) {
-        File file = null;
-        switch (type) {
-            case TYPE_PHOTO:
-                file = new File(directory.getPath() + "/" + "photo_"
-                        + System.currentTimeMillis() + ".jpg");
-                break;
-            case TYPE_VIDEO:
-                file = new File(directory.getPath() + "/" + "video_"
-                        + System.currentTimeMillis() + ".mp4");
-                break;
-        }
-
-        return Uri.fromFile(file);
-    }
 
 
-    private void createDirectory() {
-        directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                "MyFolder");
-        if (!directory.exists())
-            directory.mkdirs();
-    }
+
+
 
 
     @Override
