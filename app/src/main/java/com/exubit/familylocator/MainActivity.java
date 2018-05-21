@@ -43,8 +43,8 @@ public class MainActivity extends SingleFragmentActivity {
                     startActivityForResult(takePictureIntent, 1);
                 }*/
 
-                SingleFragmentActivity.setFragment(new StartSettingsFragment());
-                Intent intent = new Intent(this, SingleFragmentActivity.class);
+               
+                Intent intent = SingleFragmentActivity.getIntent(this, new StartSettingsFragment());
                 startActivity(intent);
 
 

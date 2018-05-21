@@ -1,5 +1,7 @@
 package com.exubit.familylocator.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
@@ -12,8 +14,9 @@ public class SingleFragmentActivity extends AppCompatActivity {
 
     private static Fragment staticFragment;
 
-    public static void setFragment(Fragment fragment) {
+    public static Intent getIntent(Context context, Fragment fragment) {
         staticFragment = fragment;
+        return new Intent(context, SingleFragmentActivity.class);
     }
 
     @LayoutRes
