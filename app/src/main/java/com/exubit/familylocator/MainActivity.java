@@ -1,21 +1,28 @@
 package com.exubit.familylocator;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.view.MenuItem;
 
+import com.exubit.familylocator.view.activity.MainActivity1;
 import com.exubit.familylocator.view.activity.SingleFragmentActivity;
+import com.exubit.familylocator.view.activity.StartSettingsActivity;
 import com.exubit.familylocator.view.fragment.StartSettingsFragment;
 import com.exubit.familylocator.view.fragment.YandexFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
+import java.util.List;
 
 public class MainActivity extends SingleFragmentActivity {
 
@@ -37,14 +44,23 @@ public class MainActivity extends SingleFragmentActivity {
 
         switch (item.getItemId()) {
             case R.id.show_subtitle:
+               /* File photoFile = getPhotoFile(this.getApplicationContext());
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Uri uri = FileProvider.getUriForFile(this, "com.exubit.familylocator.fileprovider", photoFile);
+                takePictureIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
+                List<ResolveInfo> cameraActivites = getPackageManager().queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+                for (ResolveInfo activity : cameraActivites) {
+                    grantUriPermission(activity.activityInfo.packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                }
+                startActivityForResult(takePictureIntent, 1);*/
 
-               /* Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+             /*   Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, 1);
                 }*/
 
                
-                Intent intent = SingleFragmentActivity.getIntent(this, new StartSettingsFragment());
+                Intent intent = new Intent(this, MainActivity1.class);
                 startActivity(intent);
 
 
@@ -104,7 +120,7 @@ public class MainActivity extends SingleFragmentActivity {
                         .show();*/
 
 
-               /* ProgressDialog pd=new ProgressDialog(MainActivity.this);
+               /* ProgressDialog pd=new ProgressDialog(MainActivity1.this);
                 pd.setTitle("Please Wait..");
                 pd.setMessage("Loading...");
 
@@ -133,4 +149,15 @@ public class MainActivity extends SingleFragmentActivity {
         Bitmap imageBitmap = (Bitmap) extras.get("data");
         int i=1;
      }
+
+
+
+    public File getPhotoFile(Context context) {
+        File fileDir = context.getFilesDir();
+        return new File(fileDir, getPhotoFilenme());
+    }
+
+    public String getPhotoFilenme() {
+        return "IMG_" + "serg" + ".jpg";
+    }
 }

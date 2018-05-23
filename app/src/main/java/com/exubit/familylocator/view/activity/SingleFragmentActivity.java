@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.exubit.familylocator.R;
+import com.exubit.familylocator.view.fragment.DefineAppStateFragment;
 
 public class SingleFragmentActivity extends AppCompatActivity {
 
@@ -41,6 +42,8 @@ public class SingleFragmentActivity extends AppCompatActivity {
 
     protected Fragment createFragment(){
         Fragment fragment = staticFragment;
+        if(fragment == null)
+            fragment = new DefineAppStateFragment();
         staticFragment = null;
         return fragment;
     }

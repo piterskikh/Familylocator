@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.exubit.familylocator.core.AppProcessor;
 import com.exubit.familylocator.core.BeanStart;
+import com.exubit.familylocator.presenter.DefineAppStateFragmentPresenter;
 import com.exubit.familylocator.presenter.MapPresenter;
 import com.exubit.familylocator.model.repository.MemberLocalOperation;
 import com.exubit.familylocator.model.repository.MemberNetworkOperation;
@@ -40,5 +41,7 @@ public interface AppComponent {
     void inject(BeanStart beanStart);
 
     void inject(AppProcessor appProcessor);
+
+    void inject(DefineAppStateFragmentPresenter defineAppStateFragmentPresenter);
 
 }
