@@ -10,6 +10,6 @@ import com.exubit.familylocator.bean.UserLocation;
 public interface DefineAppStateFragmentInterface extends MvpView {
 
     @StateStrategyType(SkipStrategy.class)
-    void changeUserLocation(@NonNull final UserLocation userLocation);
+    void goToPage(final int page);
 
 }

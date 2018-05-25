@@ -37,7 +37,7 @@ public class DefineAppStateFragment extends BaseFragment implements DefineAppSta
 
 
     @Override
-    public void changeUserLocation(@NonNull UserLocation userLocation) {
+    public void goToPage(final int page) {
 
     }
 }

@@ -6,6 +6,9 @@ import com.exubit.familylocator.core.App;
 import com.exubit.familylocator.core.utils.Utils;
 import com.exubit.familylocator.model.repository.MemberRepository;
 import com.exubit.familylocator.view.viewinterface.DefineAppStateFragmentInterface;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import javax.inject.Inject;
@@ -28,28 +31,18 @@ public class DefineAppStateFragmentPresenter extends MvpPresenter<DefineAppState
     @Named("baseOnline")
     BehaviorRelay<Boolean> baseOnlineRelay;
 
-    private Disposable subscription;
-    private Disposable baseOnlineRelaySubscription;
-
-
-
-
     public DefineAppStateFragmentPresenter() {
         App.getAppComponent().inject(this);
     }
 
     @Override
-    public void attachView(DefineAppStateFragmentInterface view) {
-        super.attachView(view);
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
 
-     }
+        memberRepository.userHasGroup("sergey");
 
-    @Override
-    public void detachView(DefineAppStateFragmentInterface view) {
-        super.detachView(view);
 
-     }
-
+    }
 
 
 

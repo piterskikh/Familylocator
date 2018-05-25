@@ -114,6 +114,11 @@ public class UtilsImpl implements Utils {
         return SHAREDPREFERENCES.getLong(key, 0L);
     }
 
+    @Override
+    public String getUserName() {
+        return "sergey";
+    }
+
     @NonNull
     private S2LatLng getS2LatLng(final double latDegrees, final double lngDegrees) {
         return S2LatLng.fromDegrees(latDegrees, lngDegrees);

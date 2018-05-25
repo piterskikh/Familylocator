@@ -39,4 +39,8 @@ public interface Utils {
 
     long getLongSettings(String key);
 
+    String getUserName();
+
+
+
 }

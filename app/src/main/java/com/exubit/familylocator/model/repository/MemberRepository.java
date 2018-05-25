@@ -8,6 +8,7 @@ import com.exubit.familylocator.core.utils.Utils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
 import io.reactivex.Flowable;
@@ -72,6 +73,11 @@ public class MemberRepository {
         member.setBaseHashCode(member.hashCode());
         memberNetworkOperation.setMaxUpdateTime(member.getLastUpdateTime());
         setMember(member, true);
+    }
+
+
+    public boolean userHasGroup(@NonNull final String name) {
+        return memberNetworkOperation.userHasGroup(name);
     }
 
 
