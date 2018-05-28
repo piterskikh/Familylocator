@@ -1,6 +1,5 @@
 package com.exubit.familylocator.model.repository;
 
-import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 
 import com.exubit.familylocator.bean.Member;
@@ -14,15 +13,13 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import durdinapps.rxfirebase2.RxFirebaseDatabase;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 
 public class MemberNetworkOperation {
 
@@ -91,34 +88,46 @@ public class MemberNetworkOperation {
 
     public boolean userHasGroup(@NonNull final String name) {
 
-        getGroupId(name).filter(groupId -> groupId.getUserGroupId()!=null).map(groupId -> {
-            List<String> userList = new ArrayList<>();
-            userList.add(name);
-            userList.add(groupId.getUserGroupId());
-            return userList;}).toFlowable().flatMap(user-> getGroupId(user).toFlowable());
-        //.flatMap(user -> getGroupId(name));
-String [] o = {"1","2","3"};
-Observable.fromArray(o);
+        final UserGroup[] groupArr = {null};
+        Maybe<UserGroup> result = getRecord(usersRef, "sergey", UserGroup.class)
+                .toFlowable()
+                .doOnNext(group -> groupArr[0] = group)
+                .filter(groupId -> groupId.getUserGroupId() != null)
+                .map(groupId -> Arrays.asList(name, groupId.getUserGroupId()))
+                .flatMapIterable(ids -> ids)
+                .flatMap(user -> getRecord(communityRef, user, Member.class).toFlowable())
+                .toList()
+                .map(member -> {
+                    for (Member m : member) {
+                        boolean properResult = true;
+                        if (m.getLastUpdateTime() == 0) {
+                            //if(m.getId().equals())
+                            properResult = false;
 
+                        }
+                    }
+                    return groupArr[0];
+                })
+                .toMaybe().defaultIfEmpty(new UserGroup(null));
 
-
-
-                //defaultIfEmpty(new UserGroup("123")).subscribe(result -> {
-
-          // UserGroup lo = result;
-        });
 
         return false;
 
     }
 
 
-    private Maybe<UserGroup> getGroupId(@NonNull final String name) {
-        Query query = usersRef.child(name);
-        return RxFirebaseDatabase.observeSingleValueEvent(query, UserGroup.class);
+    private <T> Maybe<T> getRecord(@NonNull final DatabaseReference ref, @NonNull final String name, @NonNull Class<T> clazz) {
+       // RxFirebaseDatabase.observeSingleValueEvent(ref.child(name)).map(dataSnapshot -> this::getMemberObject);
+
+        return RxFirebaseDatabase.observeSingleValueEvent(ref.child(name), clazz);
     }
 
-
+    private Member getMemberObject(@NonNull final DataSnapshot dataSnapshot) {
+        Member member = dataSnapshot.getValue(Member.class);
+        member.setId(dataSnapshot.getKey());
+        member.setBaseHashCode(member.hashCode());
+        return member;
+    }
 }
 
 

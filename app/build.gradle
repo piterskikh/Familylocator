@@ -62,13 +62,15 @@ dependencies {
     implementation "com.google.dagger:dagger:2.15"
     annotationProcessor "com.google.dagger:dagger-compiler:2.15"
 
-    implementation "com.arello-mobile:moxy:1.5.3"
+     implementation "com.arello-mobile:moxy:1.5.3"
     implementation "com.arello-mobile:moxy-android:1.5.3"
     implementation "com.arello-mobile:moxy-app-compat:1.5.3"
     annotationProcessor "com.arello-mobile:moxy-compiler:1.5.3"
 
+
     implementation "com.google.android.gms:play-services-location:15.0.1"
     implementation "io.nlopez.smartlocation:library:3.3.3"
+
     implementation "io.nlopez.smartlocation:rx:3.3.3"
 
     implementation "com.yandex.android:mapkit:3.0.0"

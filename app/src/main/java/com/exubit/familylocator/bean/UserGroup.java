@@ -15,7 +15,7 @@ public class UserGroup {
     public UserGroup() {
     }
 
-    public UserGroup(@NonNull final String userGroupId) {
+    public UserGroup(final String userGroupId) {
         this.userGroupId = userGroupId;
     }
 
