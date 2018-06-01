@@ -28,6 +28,9 @@ public class Member {
     @PrimaryKey
     @Getter(onMethod = @__({@Exclude}))
     private String id;
+    private String nickName;
+    private String phone;
+    private String avatar;
     private long location;
     private boolean online;
     private boolean trackerOn;
@@ -61,12 +64,26 @@ public class Member {
         this.lastUpdateTime = lastUpdateTimeNet;
     }
 
+    public enum FirebaseFields {
 
-    public enum Fields {
-        OBJECT,
-        LOCATION,
-        TRACKERON,
-        LOCATIONON;
+        LOCATION("location"),
+        NICKNAME("nickName"),
+        PHONE("phone"),
+        ONLINE("online"),
+        TRACKERON("trackerOn"),
+        LOCATIONON("locationOn"),
+        ISDELETED("isDeleted"),
+        LASTUPDATETIME("lastUpdateTime");
+
+        private String fbField;
+
+        FirebaseFields(String fbField) {
+            this.fbField = fbField;
+        }
+
+        public String getFbField() {
+            return fbField;
+        }
     }
 
 

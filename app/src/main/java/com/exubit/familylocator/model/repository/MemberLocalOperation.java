@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.exubit.familylocator.bean.Member;
 import com.exubit.familylocator.core.utils.Utils;
-import com.exubit.familylocator.model.dao.MemberDao;
+
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -15,21 +15,20 @@ import io.reactivex.schedulers.Schedulers;
 public class MemberLocalOperation {
 
     private final Utils utils;
-    private final MemberDao memberDao;
-    private final Flowable<Member> MEMBERFLOW;
 
-    public MemberLocalOperation(@NonNull final Utils utils
-            , @NonNull final MemberDao memberDao) {
+    //private final Flowable<Member> MEMBERFLOW;
+
+    public MemberLocalOperation(@NonNull final Utils utils) {
 
 
         this.utils = utils;
-        this.memberDao = memberDao;
-        MEMBERFLOW = memberDao.getAllFlowable().subscribeOn(Schedulers.io());
+       /* this.memberDao = memberDao;
+        MEMBERFLOW = memberDao.getAllFlowable().subscribeOn(Schedulers.io());*/
 
     }
 
     public <K> void setMember(@Nullable final String id
-            , @NonNull final Member.Fields field
+            , @NonNull final Member.FirebaseFields field
             , @NonNull final K value
             , @Nullable final boolean... asynchronous) {
 
@@ -37,16 +36,16 @@ public class MemberLocalOperation {
         Action action = () -> {
 
 
-            switch (field) {
+           /* switch (field) {
 
                 case LOCATION:
                     if (value instanceof Long)
                         memberDao.updateLocation((Long) value, id);
                     break;
-                case OBJECT:
+                *//*case :
                     if (value instanceof Member)
                         memberDao.insertMember((Member) value);
-                    break;
+                    break;*//*
 
                 case LOCATIONON:
                     if (value instanceof Boolean)
@@ -57,7 +56,7 @@ public class MemberLocalOperation {
                     if (value instanceof Boolean)
                         memberDao.updateTrackerOn((Boolean) value, id);
                     break;
-            }
+            }*/
 
         };
 
@@ -66,9 +65,9 @@ public class MemberLocalOperation {
 
 
     public Flowable<Member> getMemberFlow(boolean... asynchronous) {
-        if (utils.isFalse(asynchronous))
-            return MEMBERFLOW.observeOn(AndroidSchedulers.mainThread());
-        return MEMBERFLOW;
+      /*  if (utils.isFalse(asynchronous))
+            return MEMBERFLOW.observeOn(AndroidSchedulers.mainThread());*/
+        return null;
     }
 
 }

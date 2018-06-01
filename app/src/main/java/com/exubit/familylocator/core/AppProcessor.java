@@ -12,7 +12,7 @@ import javax.inject.Named;
 
 public class AppProcessor {
 
-    @Inject
+   /* @Inject
     Utils utils;
     @Inject
     MemberRepository memberRepository;
@@ -21,39 +21,39 @@ public class AppProcessor {
     BehaviorRelay<Boolean> memberListRelay;
 
     private Query usersQuery;
-
+*/
 
 
 
     public AppProcessor() {
-        App.getAppComponent().inject(this);
-        init();
+        ///App.getAppComponent().inject(this);
+        //init();
     }
 
     private void init() {
-        memberRepository.getChangedMemberFlow().subscribe(memberRepository::setMemberToNet);
-        memberListRelay.subscribe(this::memberListRelayListenner);
+       // memberRepository.getChangedMemberFlow().subscribe(memberRepository::setMemberToNet);
+       // memberListRelay.subscribe(this::memberListRelayListenner);
     }
 
 
     private void memberListRelayListenner(@NonNull final Boolean event) {
-        if (event)
+      /*  if (event)
             setMemberListListenner();
         else
-            deleteMemberListListenner();
+            deleteMemberListListenner();*/
     }
 
 
     private void setMemberListListenner() {
-        usersQuery =  memberRepository.getUsersQuery();
-        usersQuery.addChildEventListener(memberRepository.getMemberNetListListener());
+      /*  usersQuery =  memberRepository.getUsersQuery();
+        usersQuery.addChildEventListener(memberRepository.getMemberNetListListener());*/
     }
 
     private void deleteMemberListListenner() {
-        if (usersQuery!=null) {
+       /* if (usersQuery!=null) {
             usersQuery.addChildEventListener(memberRepository.getMemberNetListListener());
             usersQuery = null;
-        }
+        }*/
     }
 
 

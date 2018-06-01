@@ -8,8 +8,9 @@ import android.support.annotation.NonNull;
 import com.exubit.familylocator.core.AppProcessor;
 import com.exubit.familylocator.core.utils.Utils;
 import com.exubit.familylocator.core.utils.UtilsImpl;
+import com.exubit.familylocator.model.FirebaseRealtimeDatabase;
 import com.exubit.familylocator.model.dao.AppDatabase;
-import com.exubit.familylocator.model.dao.MemberDao;
+import com.exubit.familylocator.model.dao.GroupMemberDao;
 import com.exubit.familylocator.model.repository.MemberLocalOperation;
 import com.exubit.familylocator.model.repository.MemberNetworkOperation;
 import com.exubit.familylocator.model.repository.MemberRepository;
@@ -60,8 +61,8 @@ public class AppModule {
     @Provides
     @Singleton
     @NonNull
-    public MemberDao getMemberDao(@NonNull final AppDatabase roomDb) {
-        return roomDb.memberDao();
+    public GroupMemberDao getAppMemberDao(@NonNull final AppDatabase roomDb) {
+        return roomDb.appMemberDao();
     }
 
     @Provides
@@ -71,23 +72,26 @@ public class AppModule {
         return FirebaseDatabase.getInstance().getReference();
     }
 
-
-    @Provides
-    @Singleton
-    @NonNull
-    public MemberLocalOperation getMemberLocalOperation(@NonNull final Utils utils
-            , @NonNull final MemberDao memberDao) {
-
-        return new MemberLocalOperation(utils, memberDao);
-    }
-
     @Provides
     @Singleton
     @NonNull
     public MemberNetworkOperation getMemberNetworkOperation(@NonNull final Utils utils
             , @NonNull DatabaseReference databaseReference) {
-
         return new MemberNetworkOperation(utils, databaseReference);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    public FirebaseRealtimeDatabase getUserFirebaseDao(@NonNull DatabaseReference databaseReference) {
+        return new FirebaseRealtimeDatabase(databaseReference);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    public MemberLocalOperation getMemberLocalOperation(@NonNull final Utils utils) {
+        return new MemberLocalOperation(utils);
     }
 
     @Provides

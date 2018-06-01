@@ -4,10 +4,11 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
 import com.exubit.familylocator.bean.Member;
+import com.exubit.familylocator.model.beans.GroupMember;
+import com.exubit.familylocator.model.beans.SavedMember;
 
-@Database(entities = {Member.class}, version = 1)
+
+@Database(entities = {GroupMember.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
-
-    public abstract MemberDao memberDao();
-
+    public abstract GroupMemberDao appMemberDao();
 }

@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.support.annotation.NonNull;
 
 import com.exubit.familylocator.bean.PointD;
+
+import java.util.Map;
 
 import io.reactivex.functions.Action;
 
@@ -40,6 +43,8 @@ public interface Utils {
     long getLongSettings(String key);
 
     String getUserName();
+
+    <K,V> Map<K,V> getMergedMap(@NonNull final Map<K,V>... maps);
 
 
 

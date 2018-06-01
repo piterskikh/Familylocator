@@ -13,6 +13,8 @@ import com.exubit.familylocator.core.utils.s2.S2CellId;
 import com.exubit.familylocator.core.utils.s2.S2LatLng;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import io.reactivex.Completable;
@@ -124,5 +126,13 @@ public class UtilsImpl implements Utils {
         return S2LatLng.fromDegrees(latDegrees, lngDegrees);
     }
 
+    @SafeVarargs
+    @Override
+    @NonNull
+    public final <K,V> Map<K,V> getMergedMap(@NonNull final Map<K, V>... maps) {
+        final Map<K,V> map = new HashMap<>();
+        for (Map<K, V> m : maps) map.putAll(m);
+        return map;
+    }
 
 }

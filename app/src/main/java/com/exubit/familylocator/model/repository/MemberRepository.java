@@ -36,14 +36,14 @@ public class MemberRepository {
     }
 
 
-    public void setMember(@NonNull final Member member, @Nullable final boolean... asynchronous) {
+   /* public void setMember(@NonNull final Member member, @Nullable final boolean... asynchronous) {
         memberLocalOperation.setMember(null, Member.Fields.OBJECT, member, asynchronous);
     }
 
 
     public <V> void setMember(@NonNull final String id, @NonNull final Member.Fields field, @NonNull final V value, @Nullable final boolean... asynchronous) {
         memberLocalOperation.setMember(id, field, value, asynchronous);
-    }
+    }*/
 
     @NonNull
     public Flowable<Member> getChangedMemberFlow() {
@@ -72,7 +72,7 @@ public class MemberRepository {
         member.setId(dataSnapshot.getKey());
         member.setBaseHashCode(member.hashCode());
         memberNetworkOperation.setMaxUpdateTime(member.getLastUpdateTime());
-        setMember(member, true);
+      //  setMember(member, true);
     }
 
 
