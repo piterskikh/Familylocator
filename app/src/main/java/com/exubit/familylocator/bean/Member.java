@@ -1,9 +1,10 @@
 package com.exubit.familylocator.bean;
 
+
+
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -12,6 +13,7 @@ import com.google.firebase.database.ServerValue;
 
 import java.util.Map;
 
+import io.reactivex.annotations.NonNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

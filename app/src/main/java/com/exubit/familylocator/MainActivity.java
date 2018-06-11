@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.exubit.familylocator.view.activity.MainActivity1;
@@ -23,6 +24,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.util.List;
+
+import android.text.Selection;
 
 public class MainActivity extends SingleFragmentActivity {
 
@@ -43,6 +46,7 @@ public class MainActivity extends SingleFragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+
             case R.id.show_subtitle:
                /* File photoFile = getPhotoFile(this.getApplicationContext());
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

@@ -1,5 +1,6 @@
 package com.exubit.familylocator
 
+import android.text.TextUtils
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,6 +13,10 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+
+
+       // assertEquals(4, 2 + 2)
+      //  android.support.design.widget.AppBarLayout tt = new android.support.design.widget.AppBarLayout() ;
+        assertTrue(TextUtils.isEmpty(null));
     }
 }
