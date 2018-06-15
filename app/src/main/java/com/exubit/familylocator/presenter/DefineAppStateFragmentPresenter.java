@@ -4,13 +4,18 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.exubit.familylocator.core.App;
 import com.exubit.familylocator.core.utils.Utils;
-import com.exubit.familylocator.model.dao.LocalGroupMemberDao;
+import com.exubit.familylocator.model.beans.GroupMember;
+import com.exubit.familylocator.model.beans.SavedMember;
+import com.exubit.familylocator.model.localdb.dao.LocalGroupMemberDao;
 import com.exubit.familylocator.model.repository.MemberRepository;
 import com.exubit.familylocator.view.viewinterface.DefineAppStateFragmentInterface;
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import io.reactivex.Completable;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class DefineAppStateFragmentPresenter extends MvpPresenter<DefineAppStateFragmentInterface> {
@@ -42,7 +47,7 @@ public class DefineAppStateFragmentPresenter extends MvpPresenter<DefineAppState
 
 
 
-/*
+
         GroupMember groupMember = new GroupMember();
         groupMember.setId("sergey");
 
@@ -54,10 +59,10 @@ public class DefineAppStateFragmentPresenter extends MvpPresenter<DefineAppState
 
 
 
-   groupMember.setSavedMember(savedMember);*/
+   groupMember.setSavedMember(savedMember);
 
 
-    /*Completable.fromAction(() -> localGroupMemberDao.updateGropMemberLocation("sergey", 123L)).subscribeOn(Schedulers.io()).subscribe(() ->{
+    Completable.fromAction(() -> localGroupMemberDao.update(groupMember)).subscribeOn(Schedulers.io()).subscribe(() ->{
 
             String jj = "sasasa";
 
@@ -65,7 +70,7 @@ public class DefineAppStateFragmentPresenter extends MvpPresenter<DefineAppState
 
           e.printStackTrace();
 
-       });*/
+       });
 
  /*     Completable.fromAction(() -> localGroupMemberDao.updateSavedMember("sergey", savedMember)).subscribeOn(Schedulers.io()).subscribe(() ->{
 

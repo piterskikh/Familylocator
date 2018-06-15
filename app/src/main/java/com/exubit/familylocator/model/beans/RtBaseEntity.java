@@ -7,7 +7,10 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @IgnoreExtraProperties
 @EqualsAndHashCode(exclude = {"id"})
 abstract class RtBaseEntity {
