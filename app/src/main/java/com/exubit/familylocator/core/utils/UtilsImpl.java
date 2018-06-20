@@ -66,10 +66,10 @@ public class UtilsImpl implements Utils {
         return new PointD(s2LatLng.latDegrees(), s2LatLng.lngDegrees());
     }
 
-    @Override
+    /*@Override
     public void executeAction(@NonNull final Action action) {
         executeAction(action, true);
-    }
+    }*/
 
     @Override
     public void executeAction(@NonNull final Action action, final boolean asynchronous) {
@@ -79,6 +79,11 @@ public class UtilsImpl implements Utils {
         else
             localAction.blockingAwait();
     }
+
+    @Override
+    public void executeAction(@NonNull final Action action) {
+      Completable.fromAction(action).subscribeOn(Schedulers.io()).subscribe();
+     }
 
     @Override
     public long getCurrentLocalTime() {

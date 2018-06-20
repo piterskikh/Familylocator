@@ -62,8 +62,8 @@ public class AppModule {
     @Provides
     @Singleton
     @NonNull
-    public GroupMemberDbMethods getGroupMemberDbMethods(@NonNull final AppDatabase roomDb) {
-        return new GroupMemberDbMethods(roomDb.getGroupMemberDao());
+    public GroupMemberDbMethods getGroupMemberDbMethods(@NonNull final AppDatabase roomDb, @NonNull final Utils utils) {
+        return new GroupMemberDbMethods(roomDb.getGroupMemberDao(), utils);
     }
 
 

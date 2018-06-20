@@ -28,6 +28,8 @@ public interface Utils {
 
     void executeAction(Action action, boolean asynchronous);
 
+
+
     long getCurrentLocalTime();
 
     String getUniqueString();

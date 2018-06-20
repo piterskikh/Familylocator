@@ -2,21 +2,23 @@ package com.exubit.familylocator.model.localdb.extension;
 
 import android.support.annotation.NonNull;
 
+import com.exubit.familylocator.core.utils.Utils;
 import com.exubit.familylocator.model.beans.GroupMember;
 import com.exubit.familylocator.model.localdb.dao.LocalGroupMemberDao;
 import com.exubit.familylocator.model.localdb.query.GetGroupMemberByIdQuery;
 
 import java.util.NoSuchElementException;
 
-import io.reactivex.Completable;
 import io.reactivex.schedulers.Schedulers;
 
 public class GroupMemberDbMethods {
 
     private final LocalGroupMemberDao dao;
+    private final Utils utils;
 
-    public GroupMemberDbMethods(@NonNull final LocalGroupMemberDao dao) {
+    public GroupMemberDbMethods(@NonNull final LocalGroupMemberDao dao, @NonNull final Utils utils) {
         this.dao = dao;
+        this.utils = utils;
     }
 
     public GroupMember getGroupMemberById(@NonNull final String id) {
@@ -30,8 +32,8 @@ public class GroupMemberDbMethods {
         }
     }
 
-    public void update(@NonNull final GroupMember... groupMembers){
-        Completable.fromAction(() -> dao.update(groupMembers)).subscribeOn(Schedulers.io()).subscribe();
+    public void update(@NonNull final GroupMember... groupMembers) {
+        utils.executeAction(() -> dao.update(groupMembers));
     }
 
 
