@@ -8,5 +8,5 @@ import com.exubit.familylocator.model.beans.GroupMember;
 
 @Database(entities = {GroupMember.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
-    public abstract LocalGroupMemberDao appMemberDao();
+    public abstract LocalGroupMemberDao getGroupMemberDao();
 }

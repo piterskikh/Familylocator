@@ -12,7 +12,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@Entity(tableName = "Groupmembers")
+@Entity(tableName = "groupmembers")
 public class GroupMember {
 
     @NonNull
@@ -25,12 +25,16 @@ public class GroupMember {
     @Embedded(prefix = "state_")
     private StateMember stateMember;
 
-    public void setId(@NonNull String id) {
-        this.id = id;
+    public void setSavedMember(final SavedMember savedMember) {
+        this.savedMember = savedMember;
         if (savedMember != null)
-            savedMember.setId(id);
+            savedMember.setId(getId());
+    }
+
+    public void setStateMember(final StateMember stateMember) {
+        this.stateMember = stateMember;
         if (stateMember != null)
-            stateMember.setId(id);
+            stateMember.setId(getId());
     }
 
     @Ignore

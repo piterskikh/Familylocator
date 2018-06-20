@@ -11,6 +11,7 @@ import com.exubit.familylocator.core.utils.UtilsImpl;
 import com.exubit.familylocator.model.FirebaseRealtimeDatabase;
 import com.exubit.familylocator.model.localdb.dao.AppDatabase;
 import com.exubit.familylocator.model.localdb.dao.LocalGroupMemberDao;
+import com.exubit.familylocator.model.localdb.extension.GroupMemberDbMethods;
 import com.exubit.familylocator.model.repository.MemberLocalOperation;
 import com.exubit.familylocator.model.repository.MemberNetworkOperation;
 import com.exubit.familylocator.model.repository.MemberRepository;
@@ -61,9 +62,10 @@ public class AppModule {
     @Provides
     @Singleton
     @NonNull
-    public LocalGroupMemberDao getAppMemberDao(@NonNull final AppDatabase roomDb) {
-        return roomDb.appMemberDao();
+    public GroupMemberDbMethods getGroupMemberDbMethods(@NonNull final AppDatabase roomDb) {
+        return new GroupMemberDbMethods(roomDb.getGroupMemberDao());
     }
+
 
     @Provides
     @Singleton
