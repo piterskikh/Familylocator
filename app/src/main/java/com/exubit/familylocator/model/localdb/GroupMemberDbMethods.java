@@ -1,14 +1,17 @@
-package com.exubit.familylocator.model.localdb.extension;
+package com.exubit.familylocator.model.localdb;
 
+import android.arch.persistence.db.SupportSQLiteQuery;
 import android.support.annotation.NonNull;
 
 import com.exubit.familylocator.core.utils.Utils;
 import com.exubit.familylocator.model.beans.GroupMember;
 import com.exubit.familylocator.model.localdb.dao.LocalGroupMemberDao;
+import com.exubit.familylocator.model.localdb.query.GetGroupMemberAllQuery;
 import com.exubit.familylocator.model.localdb.query.GetGroupMemberByIdQuery;
 
 import java.util.NoSuchElementException;
 
+import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 
 public class GroupMemberDbMethods {
@@ -23,7 +26,7 @@ public class GroupMemberDbMethods {
 
     public GroupMember getGroupMemberById(@NonNull final String id) {
 
-        GetGroupMemberByIdQuery query = new GetGroupMemberByIdQuery(id);
+        SupportSQLiteQuery query = new GetGroupMemberByIdQuery(id);
 
         try {
             return dao.getMaybe(query).toSingle().subscribeOn(Schedulers.io()).blockingGet();
@@ -32,9 +35,20 @@ public class GroupMemberDbMethods {
         }
     }
 
-    public void update(@NonNull final GroupMember... groupMembers) {
+    public Flowable<GroupMember> getGroupMemberAllFlowable() {
+        SupportSQLiteQuery query = new GetGroupMemberAllQuery();
+        return dao.getFlow(query).subscribeOn(Schedulers.io());
+    }
+
+    public void updateGroupMember(@NonNull final GroupMember... groupMembers) {
         utils.executeAction(() -> dao.update(groupMembers));
     }
 
+    public void insertGroupMember(@NonNull final GroupMember... groupMembers) {
+        utils.executeAction(() -> dao.insert(groupMembers));
+    }
 
+    public void deleteGroupMember(@NonNull final GroupMember... groupMembers) {
+        utils.executeAction(() -> dao.delete(groupMembers));
+    }
 }

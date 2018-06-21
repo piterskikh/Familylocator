@@ -5,19 +5,12 @@ import android.arch.persistence.db.SimpleSQLiteQuery;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.exubit.familylocator.core.App;
-import com.exubit.familylocator.core.utils.Utils;
 import com.exubit.familylocator.model.beans.GroupMember;
 import com.exubit.familylocator.model.beans.SavedMember;
-import com.exubit.familylocator.model.localdb.dao.LocalGroupMemberDao;
-import com.exubit.familylocator.model.localdb.extension.GroupMemberDbMethods;
-import com.exubit.familylocator.model.repository.MemberRepository;
+import com.exubit.familylocator.model.localdb.GroupMemberDbMethods;
 import com.exubit.familylocator.view.viewinterface.DefineAppStateFragmentInterface;
-import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import javax.inject.Inject;
-import javax.inject.Named;
-
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class DefineAppStateFragmentPresenter extends MvpPresenter<DefineAppStateFragmentInterface> {

@@ -20,7 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 public interface LocalGroupMemberDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void create(@NonNull GroupMember... groupMembers);
+    void insert(@NonNull GroupMember... groupMembers);
 
     @Delete
     void delete(@NonNull GroupMember... groupMembers);
@@ -36,7 +36,7 @@ public interface LocalGroupMemberDao {
         for (GroupMember groupMember : groupMembers) {
             SupportSQLiteQuery query = new GetGroupMemberByIdQuery(groupMember.getId());
             getMaybe(query).toSingle().subscribeOn(Schedulers.io())
-                    .subscribe(member -> create(member.update(groupMember)), e -> create(groupMember));
+                    .subscribe(member -> insert(member.update(groupMember)), e -> insert(groupMember));
         }
     }
 

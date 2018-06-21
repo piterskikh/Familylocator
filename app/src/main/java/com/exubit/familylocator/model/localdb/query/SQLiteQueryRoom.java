@@ -8,7 +8,7 @@ abstract class SQLiteQueryRoom implements SupportSQLiteQuery {
 
     private final SimpleSQLiteQuery simpleSQLiteQuery;
 
-    SQLiteQueryRoom(Object... argsArray) {
+    public SQLiteQueryRoom(Object... argsArray) {
         simpleSQLiteQuery = new SimpleSQLiteQuery(getQueryString(), argsArray);
     }
 
